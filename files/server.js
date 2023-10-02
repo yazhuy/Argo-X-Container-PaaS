@@ -16,14 +16,14 @@ app.get("/", function (req, res) {
 });
 
 // 页面访问密码
-// app.use((req, res, next) => {
-//   const user = auth(req);
-//   if (user && user.name === username && user.pass === password) {
-//     return next();
-//   }
-//   res.set("WWW-Authenticate", 'Basic realm="Node"');
-//   return res.status(401).send();
-// });
+app.use((req, res, next) => {
+  const user = auth(req);
+  if (user && user.name === username && user.pass === password) {
+    return next();
+  }
+  res.set("WWW-Authenticate", 'Basic realm="Node"');
+  return res.status(401).send();
+});
 
 //获取系统进程表
 app.get("/status", function (req, res) {
@@ -50,17 +50,17 @@ app.get("/listen", function (req, res) {
   });
 
 //获取节点数据
-//app.get("/list", function (req, res) {
-//    let cmdStr = "bash argo.sh";
-//    exec(cmdStr, function (err, stdout, stderr) {
-//      if (err) {
-//        res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
-//      }
-//      else {
-//        res.type("html").send("<pre>节点数据：\n\n" + stdout + "</pre>");
-//      }
-//    });
-//  });
+app.get("/list", function (req, res) {
+    let cmdStr = "bash argo.sh";
+    exec(cmdStr, function (err, stdout, stderr) {
+      if (err) {
+        res.type("html").send("<pre>命令行执行错误：\n" + err + "</pre>");
+      }
+      else {
+        res.type("html").send("<pre>节点数据：\n\n" + stdout + "</pre>");
+      }
+    });
+  });
 
 //获取系统版本、内存信息
 app.get("/info", function (req, res) {
